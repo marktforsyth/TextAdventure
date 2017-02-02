@@ -17,7 +17,20 @@ level1 = {
     "rooms": {
         "kitchen": {
             "name": "kitchen",
-            "objects": ["chicken", "couch", "microwaved game console"],
+            "objects": [
+                {
+                    "name": "chicken",
+                    "description": "The chicken lays an egg. You eat it and get salminila."
+                },
+                {
+                    "name": "couch",
+                    "description": "Achievment Unlocked: Laziness"
+                },
+                {
+                    "name": "microwaved game console",
+                    "description": "You get electricuted and die"
+                }
+            ],
             "description": "In this room there is a chicken, a couch, and a microwaved game console.",
             "exits": {
                 "north": "living room",
@@ -33,7 +46,16 @@ level1 = {
         "living room": {
             "name": "living room",
             "description": "You better know what's in here, otherwise you're a geezer.",
-            "objects": ["potato", "nothing"],
+            "objects": [
+                {
+                    "name": "potato",
+                    "description": "The potato explodes. Good Job."
+                },
+                {
+                    "name": "nothing",
+                    "description": "Nothing happens."
+                }
+            ],
             "exits": {
                 "south": "kitchen",
                 "north": "mudville"
@@ -43,7 +65,12 @@ level1 = {
             "name": "closet",
             "exits": {},
             "description": "There is no way out of the closet.",
-            "objects": ["magic portal"],
+            "objects": [
+                {
+                    "name": "magic portal",
+                    "description": "You were transported to never never land"
+                }
+            ],
             "enemy": {
                 "name": "THE DREADED COAT HANGER",
                 "hitpoints": 15,
@@ -64,7 +91,12 @@ level1 = {
         "mudville": {
             "name": "mudville",
             "description": "Look at all that mud...",
-            "objects": ["mud"],
+            "objects": [
+                {
+                    "name": "mud",
+                    "description": "You throw a nice, big, glob of mud. Nice job."
+                }
+            ],
             "exits": {
                 "south": "living room",
                 "west": "dining room"
@@ -79,7 +111,20 @@ level1 = {
         "dining room": {
             "name": "dining room",
             "description": "Here you find an assortment of plates, forks, and water pitchers.",
-            "objects": ["plates", "forks", "water pitchers"],
+            "objects": [
+                {
+                    "name": "plates",
+                    "description": "The stack of plates falls to the floor and shatters. Given the way I made this game, it is surprising that you managed to override my code and be unhurt. I'll have to fix that bug soon.",
+                },
+                {
+                    "name": "forks",
+                    "description": "All of the forks except one are swept away by a sudden breeze. You then use the one to make a stabbing motion."
+                },
+                {
+                    "name": "water pitchers",
+                    "description": "The many water pitchers fall to the floor and crash causing extreme injury and death. You die."
+                }
+            ],
             "exits": {
                 "east": "mudville",
                 "south": "bathroom"
@@ -88,7 +133,12 @@ level1 = {
         "bathroom": {
             "name": "bathroom",
             "description": "There is nothing in this room you want. Unless you want a toilet seat.",
-            "objects": ["toilet seat"],
+            "objects": [
+                {
+                    "name": "toilet seat",
+                    "description": "You stop to wonder why you ever wanted this. You throw it out the window. Your spider sense tingles. Something has changed."
+                }
+            ],
             "exits": {
                 "north": "dining room",
                 "east": "nowhere"
@@ -112,7 +162,12 @@ level1 = {
 
 player_status = {
     "health": 100,
-    "items": ["knife"],
+    "items": [
+        {
+            "name": "knife",
+            "description": "You cut your heart out by accident and die"
+        }
+    ],
     "coins": 0,
     "old": False,
     "attack": 2,
@@ -142,6 +197,12 @@ def go_direction(direction):
         player_status["old"] = True
         player_status["health"] -= 5
 
+def find_tool_in_pack(item):
+    global result
+    items = player_status["items"]
+    resultlist = [d    for d in items     if d.get('name', '') == item]
+    result = resultlist[0]
+
 
 def check(get_input):
     global current_room, old, game_status
@@ -150,6 +211,8 @@ def check(get_input):
 
     if cmd == "help":
         helpPage(get_input)
+    elif cmd == "drink":
+        drink()
     elif cmd == "I am the king of the ivory throne!":
         current_room = level1["rooms"]["bathroom"]
     elif current_room == level1["rooms"]["closet"] and cmd == "shop":
@@ -172,7 +235,7 @@ def check(get_input):
                 print("You can pick up NOTHING! YOU ARE DOOMED TO EAT CHEESE!")
             else:
                 for i, obj in enumerate(current_room["objects"]):
-                    print(str(i + 1) + ") ", obj)
+                    print(str(i + 1) + ") ", obj["name"])
                 choice = get_input()
 
                 if choice.isdigit():
@@ -192,39 +255,49 @@ def check(get_input):
             print("After that extremely uplifting message by our sponsors, we would like to inform you of your insanity and demise.")
         else:
             for i, it in enumerate(player_status["items"]):
-                print(str(i + 1) + ") ", it)
+                print(str(i + 1) + ") ", it["name"])
             choice = get_input()
 
             if choice.isdigit():
                 choice_num = int(choice)
+                global result
                 if choice_num <= len(player_status["items"]):
                     item = player_status["items"][choice_num - 1] # "knife"
-                    if item == "knife":
-                        print("You cut your heart out by accident and die")
+                    if item["name"] == "knife":
+                        find_tool_in_pack("knife")
+                        print(result["description"])
                         game_status = "lost"
-                    elif item == "magic portal":
+                    elif item["name"] == "magic portal":
+                        find_tool_in_pack("magic portal")
                         current_room = level1["rooms"]["never never land"]
-                        print("You were transported to never never land")
-                    elif item == "microwaved game console":
-                        print("You get electricuted and die")
+                        print(result["description"])
+                    elif item["name"] == "microwaved game console":
+                        find_tool_in_pack("microwaved game console")
+                        print(result["description"])
                         game_status = "lost"
-                    elif item == "chicken":
-                        print("The chicken lays an egg. You eat it and get salminila.")
+                    elif item["name"] == "chicken":
+                        find_tool_in_pack("chicken")
+                        print(result["description"])
                         game_status = "lost"
-                    elif item == "couch":
+                    elif item["name"] == "couch":
+                        find_tool_in_pack("couch")
                         if player_status["old"] == True:
                             print("You are no longer internally an old geezer!")
                         else:
-                            print("Achievment Unlocked: Laziness")
-                    elif item == "mud":
-                        print("You throw a nice, big, glob of mud. Nice job.")
+                            print(result["description"])
+                    elif item["name"] == "mud":
+                        find_tool_in_pack("mud")
+                        print(result["description"])
                         # TODO make it slow down enemies
-                    elif item == "nothing":
-                        print("Nothing happens.")
-                    elif item == "plates":
-                        print("The stack of plates falls to the floor and shatters. Given the way I made this game, it is surprising that you managed to override my code and be unhurt. I'll have to fix that bug soon.")
-                    elif item == "forks":
-                        print("All of the forks except one are swept away by a sudden breeze. You then use the one to make a stabbing motion.")
+                    elif item["name"] == "nothing":
+                        find_tool_in_pack("nothing")
+                        print(result["description"])
+                    elif item["name"] == "plates":
+                        find_tool_in_pack("plates")
+                        print(result["description"])
+                    elif item["name"] == "forks":
+                        find_tool_in_pack("forks")
+                        print(result["description"])
                         if "enemy" in current_room:
                             print("\nYou hit the " + current_room["enemy"]["name"] + "!")
                             current_room["enemy"]["hitpoints"] -= player_status["attack"]
@@ -233,19 +306,30 @@ def check(get_input):
                                 player_status["coins"] += current_room["enemy"]["coins"]
                                 del current_room["enemy"]
                                 print("Enemy defeated! You get 10 gold!")
-                    elif item == "water pitchers":
-                        print("The many water pitchers fall to the floor and crash causing extreme injury and death. You die.")
+                    elif item["name"] == "water pitchers":
+                        find_tool_in_pack("water pitchers")
+                        print(result["description"])
                         game_status = "lost"
-                    elif item == "toilet seat":
-                        print("You stop to wonder why you ever wanted this. You throw it out the window. Your spider sense tingles. Something has changed.")
+                    elif item["name"] == "toilet seat":
+                        find_tool_in_pack("toilet seat")
+                        print(result["description"])
                         player_status["items"].remove("toilet seat")
-                        level1["rooms"]["bathroom"]["objects"].append("treasure chest")
-                    elif item == "treasure chest":
-                        print("You open up the chest and find a ton of gold. You find a button inside the chest as well.")
-                        player_status["items"].append("button")
+                        level1["rooms"]["bathroom"]["objects"].update({{"name": "treasure chest", "description": "You open up the chest and find a ton of gold. You find a button inside the chest as well."}})
+                    elif item["name"] == "treasure chest":
+                        find_tool_in_pack("treasure chest")
+                        print(result["description"])
+                        player_status["items"].update({"button": {"name": "button"}})
                         player_status["coins"] += 1000000000000
-                    elif item == "button":
+                    elif item["name"] == "button":
                         game_status = "won"
+                    elif item["name"] == "potato":
+                        find_tool_in_pack("potato")
+                        print(result["description"])
+                        player_status["items"].remove(result)
+                    elif item["name"] == "ice enchantment":
+                        find_tool_in_pack("ice enchantment")
+                        player_status["attack"] += result["damage"]
+                        player_status["items"].remove(result)
                     else:
                         print("Umm I can't use that yet. go bug Mark to fix the game")
                 else:
@@ -280,13 +364,22 @@ def item_definition(i, it, in_between_phrase):
         print(str(i + 1) + ") ", it["name"], "-", in_between_phrase, it["healing"], "-", "cost:", it["cost"])
 
 
-def drink(item):
-    if not item:
-        print("There's nothing here")
-    elif "healing" not in item and item:
-        print("You can't drink that!")
-    else:
-        player_status["health"] += item["healing"]
+def drink():
+    for i, it in enumerate(player_status["items"]):
+        print(str(i + 1) + ") ", it)
+    choice = get_input()
+
+    if choice.isdigit():
+        choice_num = int(choice)
+        if choice_num <= len(player_status["items"]):
+            item = player_status["items"][choice_num - 1]
+            if "healing" not in item and item:
+                print("You can't drink that!")
+            elif "healing" in item:
+                player_status["health"] += item["healing"]
+                print("You are at " + str(player_status["health"]) + " health")
+            else:
+                print("THE CURRY IS UNSTOPPABLE")
 
 def shop(get_input):
     shop_items = [
@@ -326,7 +419,7 @@ def shop(get_input):
     print("Here are the items:")
     for i, it in enumerate(shop_items):
         if it["type"] == "weapon":
-            item_definition(i, it, "raises damage to")
+            item_definition(i, it, "raises damage by")
         else:
             item_definition(i, it, "raises health by")
     choice = get_input()
