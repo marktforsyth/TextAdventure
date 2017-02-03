@@ -172,6 +172,20 @@ def check(get_input):
                         find_tool_in_pack("ice enchantment")
                         player_status["attack"] += result["damage"]
                         player_status["items"].remove(result)
+                    elif item["name"] == "sandstone sharpening":
+                        find_tool_in_pack("sandstone sharpening")
+                        player_status["attack"] += result["damage"]
+                        player_status["items"].remove(result)
+                    elif item["name"] == "draconic bestowment":
+                        find_tool_in_pack("draconic bestowment")
+                        player_status["attack"] += result["damage"]
+                        player_status["items"].remove(result)
+                    elif item["name"] == "spearmint":
+                        find_tool_in_pack("spearmint")
+                        player_status["attack"] += result["damage"]
+                        player_status["items"].remove(result)
+                    elif item["name"] == "health potion":
+                        print("You can't use this, you have to drink it!")
                     else:
                         print("Umm I can't use that yet. go bug Mark to fix the game")
                 else:
