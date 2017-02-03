@@ -61,7 +61,7 @@ def check(get_input):
         shop(get_input)
     elif cmd == "status":
         print("Health: " + str(player_status['health']))
-        print("Items: " + str(", ".join(player_status["items"])))
+        #print("Items: " + str(", ".join(player_status["items"])))
         print("Coins: " + str(player_status["coins"]))
     elif cmd == "north":
         go_direction("north")
@@ -237,6 +237,17 @@ def drink():
             else:
                 print("THE CURRY IS UNSTOPPABLE")
 
+def buy(cost, item):
+    if player_status["coins"] < cost:
+        print("You don't have enough money to buy that!")
+        print(player_status["coins"])
+        print(cost)
+    elif player_status["coins"] >= cost:
+        print("You have succesfully bought " + item["name"] + "!")
+        player_status["items"].append(item)
+    else:
+        print("They're the wrong trousers and they've gone wrong!")
+
 def shop(get_input):
     shop_items = [
         {
@@ -283,10 +294,7 @@ def shop(get_input):
     if choice.isdigit():
         choice_num = int(choice)
         if choice_num <= len(shop_items):
-            # TODO make item more readable w/o glitches
-            # Also make it usable
-            player_status["items"].append(shop_items[choice_num - 1])
-            player_status["coins"] -= it["cost"]
+            buy(it["cost"], shop_items[choice_num - 1])
         else:
             print("You can't buy that silly!")
     else:
