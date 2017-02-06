@@ -61,7 +61,14 @@ def check(get_input):
         shop(get_input)
     elif cmd == "status":
         print("Health: " + str(player_status['health']))
-        #print("Items: " + str(", ".join(player_status["items"])))
+        #print("Items: " + player_status["items"]["name"])
+        print("Items: ", end="")
+        first = True
+        for num, i in enumerate(player_status["items"]):
+            if num == len(player_status["items"]) - 1:
+                print(i["name"])
+            else:
+                print(i["name"], end=", ")
         print("Coins: " + str(player_status["coins"]))
     elif cmd == "north":
         go_direction("north")
