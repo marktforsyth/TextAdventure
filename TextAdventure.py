@@ -237,22 +237,24 @@ def item_definition(i, it, in_between_phrase):
 
 
 def drink():
-    for i, it in enumerate(player_status["items"]):
-        print(str(i + 1) + ") ", it["name"])
+    #TODO make this work
+    drinkables = {}
+    for i in player_status["items"]:
+        if "healing" in i:
+            drinkables.update(i)
+
+    for i, it in enumerate(drinkables):
+        print(str(i + 1) + ") " + it["name"])
     choice = get_input()
 
     if choice.isdigit():
         choice_num = int(choice)
-        if choice_num <= len(player_status["items"]):
-            item = player_status["items"][choice_num - 1]
-            if "healing" not in item and item:
-                print("You can't drink that!")
-            elif "healing" in item:
-                player_status["health"] += item["healing"]
-                print("You are at " + str(player_status["health"]) + " health")
-                player_status["items"].remove(item)
-            else:
-                print("THE CURRY IS UNSTOPPABLE")
+        if choice_num <= len(drinkables):
+            item = drinkables[choice_num - 1]
+            player_status["health"] += item["healing"]
+            print("You are at " + str(player_status["health"]) + " health")
+            player_status["items"].remove(item)
+            drinkables.remove(item)
 
 def buy(cost, item):
     if player_status["coins"] < cost:
