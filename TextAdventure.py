@@ -250,7 +250,7 @@ def drink():
             elif "healing" in item:
                 player_status["health"] += item["healing"]
                 print("You are at " + str(player_status["health"]) + " health")
-                #player_status["items"].remove("{}")
+                player_status["items"].remove(item)
             else:
                 print("THE CURRY IS UNSTOPPABLE")
 
