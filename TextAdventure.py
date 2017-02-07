@@ -247,8 +247,6 @@ def drink():
 def buy(cost, item):
     if player_status["coins"] < cost:
         print("You don't have enough money to buy that!")
-        print(player_status["coins"])
-        print(cost)
     elif player_status["coins"] >= cost:
         print("You have succesfully bought " + item["name"] + "!")
         player_status["items"].append(item)
@@ -301,7 +299,7 @@ def shop(get_input):
     if choice.isdigit():
         choice_num = int(choice)
         if choice_num <= len(shop_items):
-            buy(it["cost"], shop_items[choice_num - 1])
+            buy(shop_items[choice_num - 1]["cost"], shop_items[choice_num - 1])
         else:
             print("You can't buy that silly!")
     else:
