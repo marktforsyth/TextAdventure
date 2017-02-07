@@ -24,6 +24,7 @@ level1 = {
             "enemy": {
                 "name": "stove",
                 "hitpoints": 10,
+                "muddy_turns": 0,
                 "attack": 5,
                 "coins": 10
             }
@@ -58,6 +59,9 @@ level1 = {
             ],
             "enemy": {
                 "name": "THE DREADED COAT HANGER",
+                "hitpoints": 10,
+
+                "muddy_turns": 0,
                 "hitpoints": 15,
                 "attack": 7,
                 "coins": 15
@@ -88,6 +92,8 @@ level1 = {
             },
             "enemy": {
                 "name": "Muddy Shoe",
+                "hitpoints": 10,
+                "muddy_turns": 0,
                 "hitpoints": 20,
                 "attack": 10,
                 "coins": 20
@@ -129,6 +135,9 @@ level1 = {
                 "east": "nowhere"
             },
             "enemy": {
+                "hitpoints": 10,
+
+                "muddy_turns": 0,
                 "name": "Toilet",
                 "hitpoints": 25,
                 "attack": 12,

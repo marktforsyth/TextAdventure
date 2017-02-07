@@ -79,7 +79,7 @@ def check(get_input):
     elif cmd == "west":
         go_direction("west")
     elif cmd == "pick up":
-        if "enemy" not in current_room:
+        if "enemy" not in current_room or current_room["enemy"]["muddy_turns"] > 0:
             if current_room["objects"] == None:
                 print("You can pick up NOTHING! YOU ARE DOOMED TO EAT CHEESE!")
             else:
@@ -137,7 +137,13 @@ def check(get_input):
                     elif item["name"] == "mud":
                         find_tool_in_pack("mud")
                         print(result["description"])
-                        # TODO make it slow down enemies
+                        if "enemy" in current_room:
+                            if "Muddy Shoe" == current_room["enemy"]["name"]:
+                                print("The Muddy Shoe laughs at your patehtic attempt to use its natural element.")
+                            else:
+                                current_room["enemy"]["muddy_turns"] = 2
+                                print("The " + current_room["enemy"]["name"] + " is now covered in mud! Quick, make your escape!")
+
                     elif item["name"] == "nothing":
                         find_tool_in_pack("nothing")
                         print(result["description"])
@@ -154,7 +160,7 @@ def check(get_input):
                             if current_room["enemy"]["hitpoints"] <= 0:
                                 player_status["coins"] += current_room["enemy"]["coins"]
                                 del current_room["enemy"]
-                                print("Enemy defeated! You get 10 gold!")
+                                print("Enemy defeated! You now have " + str(player_status["coins"]) + " gold!")
                     elif item["name"] == "water pitchers":
                         find_tool_in_pack("water pitchers")
                         print(result["description"])
@@ -162,12 +168,12 @@ def check(get_input):
                     elif item["name"] == "toilet seat":
                         find_tool_in_pack("toilet seat")
                         print(result["description"])
-                        player_status["items"].remove("toilet seat")
+                        player_status["items"].remove(result)
                         level1["rooms"]["bathroom"]["objects"].update({{"name": "treasure chest", "description": "You open up the chest and find a ton of gold. You find a button inside the chest as well."}})
                     elif item["name"] == "treasure chest":
                         find_tool_in_pack("treasure chest")
                         print(result["description"])
-                        player_status["items"].update({"button": {"name": "button"}})
+                        player_status["items"].append({"button": {"name": "button"}})
                         player_status["coins"] += 1000000000000
                     elif item["name"] == "button":
                         game_status = "won"
@@ -206,7 +212,10 @@ def enemy_attacks():
     global game_status
     if "enemy" in current_room:
         chance = random()
-        if chance <= 0.7:
+        if current_room["enemy"]["muddy_turns"] > 0:
+            current_room["enemy"]["muddy_turns"] -= 1
+            print("The " + current_room["enemy"]["name"] + " is covered in mud. Onlooking peasants laugh at it")
+        elif chance <= 0.7:
             print("The " + current_room["enemy"]["name"] + " hit you")
             player_status["health"] -= current_room["enemy"]["attack"]
             if player_status["health"] <= 0:
@@ -229,7 +238,7 @@ def item_definition(i, it, in_between_phrase):
 
 def drink():
     for i, it in enumerate(player_status["items"]):
-        print(str(i + 1) + ") ", it)
+        print(str(i + 1) + ") ", it["name"])
     choice = get_input()
 
     if choice.isdigit():
@@ -241,6 +250,7 @@ def drink():
             elif "healing" in item:
                 player_status["health"] += item["healing"]
                 print("You are at " + str(player_status["health"]) + " health")
+                #player_status["items"].remove("{}")
             else:
                 print("THE CURRY IS UNSTOPPABLE")
 
