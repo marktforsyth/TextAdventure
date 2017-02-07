@@ -260,6 +260,7 @@ def buy(cost, item):
     elif player_status["coins"] >= cost:
         print("You have succesfully bought " + item["name"] + "!")
         player_status["items"].append(item)
+        player_status["coins"] -= cost
     else:
         print("They're the wrong trousers and they've gone wrong!")
 
