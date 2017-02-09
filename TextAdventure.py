@@ -226,7 +226,7 @@ def enemy_attacks():
             print("The " + current_room["enemy"]["name"] + " missed. Furniture these days is getting worse and worse :(")
 
 def helpPage(get_input):
-    print("Your commands are 'status', 'north', 'south', 'east', 'west', 'use', and 'pick up'. You can also type 'help' at any time to view this again.\n")
+    print("Your commands are 'status', 'north', 'south', 'east', 'west', 'use', 'pick up', 'drink' and when there is no other way out, 'shop'. You can also type 'help' at any time to view this again.\n")
     check(get_input)
 
 def item_definition(i, it, in_between_phrase):
