@@ -5,17 +5,17 @@ level1 = {
             "objects": [
                 {
                     "name": "chicken",
-                    "description": "The chicken lays an egg. You eat it and get salminila."
+                    "description": "The chicken lays an egg. You eat it and get salminila.",
                     "use_desc": "a chicken. wonder if it lays eggs"
                 },
                 {
                     "name": "couch",
-                    "description": "Achievment Unlocked: Laziness"
+                    "description": "Achievment Unlocked: Laziness",
                     "use_desc": "a comfortable enough looking couch. if i had aching bones i would sit on it"
                 },
                 {
                     "name": "microwaved game console",
-                    "description": "You get electricuted and die"
+                    "description": "You get electricuted and die",
                     "use_desc": "a fried to the core game console. wonder what would happen if you tried playing it"
                 }
             ],
@@ -38,12 +38,12 @@ level1 = {
             "objects": [
                 {
                     "name": "potato",
-                    "description": "The potato explodes. Good Job."
+                    "description": "The potato explodes. Good Job.",
                     "use_desc": "a large potato. i don't know if it will stay around for long though"
                 },
                 {
                     "name": "nothing",
-                    "description": "Nothing happens."
+                    "description": "Nothing happens.",
                     "use_desc": "nothing. if you use it something very interesting will clearly happen"
                 }
             ],
@@ -59,7 +59,7 @@ level1 = {
             "objects": [
                 {
                     "name": "magic portal",
-                    "description": "You were transported to never never land"
+                    "description": "You were transported to never never land",
                     "use_desc": "a magical portal. this could help if you're stuck"
                 }
             ],
@@ -89,7 +89,7 @@ level1 = {
             "objects": [
                 {
                     "name": "mud",
-                    "description": "You throw a nice, big, glob of mud. Nice job."
+                    "description": "You throw a nice, big, glob of mud. Nice job.",
                     "use_desc": "a infinite supply of mud. maybe you should throw it"
                 }
             ],
@@ -117,12 +117,12 @@ level1 = {
                 },
                 {
                     "name": "forks",
-                    "description": "All of the forks except one are swept away by a sudden breeze. You then use the one to make a stabbing motion."
+                    "description": "All of the forks except one are swept away by a sudden breeze. You then use the one to make a stabbing motion.",
                     "use_desc": "a pile of forks. couldn't be a better fighting tool than a knife, could it?"
                 },
                 {
                     "name": "water pitchers",
-                    "description": "The many water pitchers fall to the floor and crash causing extreme injury and death. You die."
+                    "description": "The many water pitchers fall to the floor and crash causing extreme injury and death. You die.",
                     "use_desc": "a ton of precariously stacked water pitchers. why did you pick all these up anyway?"
                 }
             ],
@@ -137,7 +137,7 @@ level1 = {
             "objects": [
                 {
                     "name": "toilet seat",
-                    "description": "You stop to wonder why you ever wanted this. You throw it out the window. Your spider sense tingles. Something has changed."
+                    "description": "You stop to wonder why you ever wanted this. You throw it out the window. Your spider sense tingles. Something has changed.",
                     "use_desc": "a toilet seat. (game creator silently facepalms) why on earth did you think that picking this up would be a good idea. it's not like it's gonna be entirely key to you winning the game or anything"
                 }
             ],
