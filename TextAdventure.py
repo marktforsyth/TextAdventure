@@ -10,7 +10,8 @@ player_status = {
     "items": [
         {
             "name": "knife",
-            "description": "You cut your heart out by accident and die"
+            "description": "You cut your heart out by accident and die",
+            "use_desc": "a bloody knife. looks menacing"
         }
     ],
     "coins": 0,
