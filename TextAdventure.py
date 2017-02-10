@@ -248,7 +248,7 @@ def drink():
             drinkables.append(i)
 
     for i, it in enumerate(drinkables):
-        print(str(i + 1) + ") ", it["name"]) ##
+        print(str(i + 1) + ") ", it["name"], "-", it["use_desc"])
     choice = get_input()
 
     if choice.isdigit():
@@ -276,31 +276,36 @@ def shop(get_input):
             "name": "ice enchantment",
             "cost": 10,
             "damage": 5,
-            "type": "weapon"
+            "type": "weapon",
+            "use_desc": "a spell of enhancment. couldn't be in any way useful, could it?"
         },
         {
             "name": "sandstone sharpening",
             "cost": 15,
             "damage": 7,
-            "type": "weapon"
+            "type": "weapon",
+            "use_desc": "a spell of enhancment. couldn't be in any way useful, could it?"
         },
         {
             "name": "draconic bestowment",
             "cost": 20,
             "damage": 10,
-            "type": "weapon"
+            "type": "weapon",
+            "use_desc": "a spell of enhancment. couldn't be in any way useful, could it?"
         },
         {
             "name": "spearmint",
             "cost": 25,
             "damage": 12,
-            "type": "weapon"
+            "type": "weapon",
+            "use_desc": "a spell of enhancment. couldn't be in any way useful, could it?"
         },
         {
             "name": "health potion",
             "cost": 15,
             "type": "potion",
-            "healing": 25
+            "healing": 25,
+            "use_desc": "a health potion. it is highly reccomended by fitness experts because it is beneficial to your well being"
         }
     ]
 
@@ -350,26 +355,25 @@ def test_get_input():
 
 def gameLoop(get_input):
     global game_status
-    if "enemy" in current_room:
-        print("\nYou are in the " + current_room["name"] + ". " + current_room["description"], "Also there's an enemy in here so watch out!")
-    else:
-        print("\nYou are in the " + current_room["name"] + ". " + current_room["description"])
-    print_exits()
-    enemy_attacks()
-    try:
-        if game_status == "playing":
-            check(get_input)
-    except KeyboardInterrupt:
-        game_status = "lost"
+    while True:
+        if "enemy" in current_room:
+            print("\nYou are in the " + current_room["name"] + ". " + current_room["description"], "Also there's an enemy in here so watch out!")
+        else:
+            print("\nYou are in the " + current_room["name"] + ". " + current_room["description"])
+        print_exits()
+        enemy_attacks()
+        try:
+            if game_status == "playing":
+                check(get_input)
+        except KeyboardInterrupt:
+            game_status = "lost"
 
-    if game_status == "playing":
-        gameLoop(get_input)
-    elif game_status == "won":
-        print("YOU WON!!! Imagine digital confetti showering over you.")
-    elif game_status == "lost":
-        print("Awwwww. You lost. Imagine a digital rotten tomato hitting you in the face.")
-    else:
-        pass
+        if game_status == "won":
+            print("YOU WON!!! Imagine digital confetti showering over you.")
+            break
+        elif game_status == "lost":
+            print("Awwwww. You lost. Imagine a digital rotten tomato hitting you in the face.")
+            break
 
 import sys
 get_input = None
