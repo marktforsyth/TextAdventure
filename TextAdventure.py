@@ -12,6 +12,13 @@ player_status = {
             "name": "knife",
             "description": "You cut your heart out by accident and die",
             "use_desc": "a bloody knife. looks menacing"
+        },
+        {
+            "name": "health potion",
+            "cost": 15,
+            "type": "potion",
+            "healing": 25,
+            "use_desc": "a health potion. it is highly reccomended by fitness experts because it is beneficial to your well being"
         }
     ],
     "coins": 0,
@@ -33,6 +40,8 @@ def go_direction(direction):
     if direction in current_room["exits"]:
         room_name = current_room["exits"][direction] # living room
         current_room = level1["rooms"][room_name]
+        player_status["health"] += 2
+        print("You gained 2 health!")
     else:
         print("Your head slams into the wall. You lose 5 health and are knocked out for 50 years.")
         time.sleep(5)
@@ -247,18 +256,13 @@ def drink():
         if "healing" in i:
             drinkables.append(i)
 
-    for i, it in enumerate(drinkables):
-        print(str(i + 1) + ") ", it["name"], "-", it["use_desc"])
-    choice = get_input()
+    item = pick_item(get_input, drinkables, "You can't drink that, silly!")
+    if item:
+        player_status["health"] += item["healing"]
+        print("You are at " + str(player_status["health"]) + " health")
+        player_status["items"].remove(item)
+        drinkables.remove(item)
 
-    if choice.isdigit():
-        choice_num = int(choice)
-        if choice_num <= len(drinkables):
-            item = drinkables[choice_num - 1]
-            player_status["health"] += item["healing"]
-            print("You are at " + str(player_status["health"]) + " health")
-            player_status["items"].remove(item)
-            drinkables.remove(item)
 
 def buy(cost, item):
     if player_status["coins"] < cost:
@@ -311,7 +315,24 @@ def shop(get_input):
 
     print("Hello and welcome to the shop! Here you may buy exquisitely non exquisite enchantments given as they all do the same thing. Except slightly different.\n")
     print("Here are the items:")
-    for i, it in enumerate(shop_items):
+    picked_item = pick_item(get_input, shop_items, "You can't buy that silly!")
+    if picked_item:
+        buy(picked_item["cost"], picked_item)
+
+
+def pick_item_for_drinking(get_input, items):
+    for i, it in enumerate(items):
+        print(str(i + 1) + ") ", it["name"], "-", it["use_desc"])
+    choice = get_input()
+
+    if choice.isdigit():
+        choice_num = int(choice)
+        if choice_num <= len(items):
+            item = items[choice_num - 1]
+            return item
+
+def pick_item(get_input, items, failure_message):
+    for i, it in enumerate(items):
         if it["type"] == "weapon":
             item_definition(i, it, "raises damage by")
         else:
@@ -320,10 +341,10 @@ def shop(get_input):
 
     if choice.isdigit():
         choice_num = int(choice)
-        if choice_num <= len(shop_items):
-            buy(shop_items[choice_num - 1]["cost"], shop_items[choice_num - 1])
+        if choice_num <= len(items):
+            return items[choice_num - 1]
         else:
-            print("You can't buy that silly!")
+            print(failure_message)
     else:
         print("That's not a number you numberskull!")
 
