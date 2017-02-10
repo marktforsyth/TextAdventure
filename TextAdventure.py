@@ -350,7 +350,10 @@ def test_get_input():
 
 def gameLoop(get_input):
     global game_status
-    print("\nYou are in the " + current_room["name"] + ". " + current_room["description"])
+    if "enemy" in current_room:
+        print("\nYou are in the " + current_room["name"] + ". " + current_room["description"], "Also there's an enemy in here so watch out!")
+    else:
+        print("\nYou are in the " + current_room["name"] + ". " + current_room["description"])
     print_exits()
     enemy_attacks()
     try:
