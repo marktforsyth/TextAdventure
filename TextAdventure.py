@@ -61,7 +61,6 @@ def check(get_input):
         shop(get_input)
     elif cmd == "status":
         print("Health: " + str(player_status['health']))
-        #print("Items: " + player_status["items"]["name"])
         print("Items: ", end="")
         first = True
         for num, i in enumerate(player_status["items"]):
@@ -70,6 +69,7 @@ def check(get_input):
             else:
                 print(i["name"], end=", ")
         print("Coins: " + str(player_status["coins"]))
+        print("Damage: " + str(player_status["attack"]))
     elif cmd == "north":
         go_direction("north")
     elif cmd == "south":
@@ -185,18 +185,22 @@ def check(get_input):
                         find_tool_in_pack("ice enchantment")
                         player_status["attack"] += result["damage"]
                         player_status["items"].remove(result)
+                        print("Your forks glow momentarily. They seem sharper, longer, and tougher.")
                     elif item["name"] == "sandstone sharpening":
                         find_tool_in_pack("sandstone sharpening")
                         player_status["attack"] += result["damage"]
                         player_status["items"].remove(result)
+                        print("Your forks glow momentarily. They seem sharper, longer, and tougher.")
                     elif item["name"] == "draconic bestowment":
                         find_tool_in_pack("draconic bestowment")
                         player_status["attack"] += result["damage"]
                         player_status["items"].remove(result)
+                        print("Your forks glow momentarily. They seem sharper, longer, and tougher.")
                     elif item["name"] == "spearmint":
                         find_tool_in_pack("spearmint")
                         player_status["attack"] += result["damage"]
                         player_status["items"].remove(result)
+                        print("Your forks glow momentarily. They seem sharper, longer, and tougher.")
                     elif item["name"] == "health potion":
                         print("You can't use this, you have to drink it!")
                     else:
@@ -237,7 +241,6 @@ def item_definition(i, it, in_between_phrase):
 
 
 def drink():
-    #TODO make this work
     drinkables = []
     for i in player_status["items"]:
         if "healing" in i:
