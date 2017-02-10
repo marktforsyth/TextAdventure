@@ -105,7 +105,7 @@ def check(get_input):
             print("After that extremely uplifting message by our sponsors, we would like to inform you of your insanity and demise.")
         else:
             for i, it in enumerate(player_status["items"]):
-                print(str(i + 1) + ") ", it["name"])
+                print(str(i + 1) + ") ", it["name"], "-", it["use_desc"])
             choice = get_input()
 
             if choice.isdigit():
