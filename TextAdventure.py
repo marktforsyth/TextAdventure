@@ -324,8 +324,9 @@ def pick_item(items, failure_message):
         else:
             print(failure_message)
     else:
-        print("That's not a number you numberskull!")
-
+        for item in items:
+            if item["name"] == choice:
+                return item
 def default_get_input():
     return input('>>> ')
 
