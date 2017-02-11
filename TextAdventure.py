@@ -113,114 +113,100 @@ def check(get_input):
             print("YOU HAVE NO ITEMS IN YOUR POTATO SACK. YOU ALSO HAVE NO HOPE!")
             print("After that extremely uplifting message by our sponsors, we would like to inform you of your insanity and demise.")
         else:
-            for i, it in enumerate(player_status["items"]):
-                print(str(i + 1) + ") ", it["name"], "-", it["use_desc"])
-            choice = get_input()
+            item = pick_item(player_status["items"], "You can't pick that up silly!")
 
-            if choice.isdigit():
-                choice_num = int(choice)
-                global result
-                if choice_num <= len(player_status["items"]):
-                    item = player_status["items"][choice_num - 1] # "knife"
-                    if item["name"] == "knife":
-                        find_tool_in_pack("knife")
-                        print(result["description"])
-                        game_status = "lost"
-                    elif item["name"] == "magic portal":
-                        find_tool_in_pack("magic portal")
-                        current_room = level1["rooms"]["never never land"]
-                        print(result["description"])
-                    elif item["name"] == "microwaved game console":
-                        find_tool_in_pack("microwaved game console")
-                        print(result["description"])
-                        game_status = "lost"
-                    elif item["name"] == "chicken":
-                        find_tool_in_pack("chicken")
-                        print(result["description"])
-                        game_status = "lost"
-                    elif item["name"] == "couch":
-                        find_tool_in_pack("couch")
-                        if player_status["old"] == True:
-                            print("You are no longer internally an old geezer!")
-                        else:
-                            print(result["description"])
-                    elif item["name"] == "mud":
-                        find_tool_in_pack("mud")
-                        print(result["description"])
-                        if "enemy" in current_room:
-                            if "Muddy Shoe" == current_room["enemy"]["name"]:
-                                print("The Muddy Shoe laughs at your patehtic attempt to use its natural element.")
-                            else:
-                                current_room["enemy"]["muddy_turns"] = 2
-                                print("The " + current_room["enemy"]["name"] + " is now covered in mud! Quick, make your escape!")
-
-                    elif item["name"] == "nothing":
-                        find_tool_in_pack("nothing")
-                        print(result["description"])
-                    elif item["name"] == "plates":
-                        find_tool_in_pack("plates")
-                        print(result["description"])
-                    elif item["name"] == "forks":
-                        find_tool_in_pack("forks")
-                        print(result["description"])
-                        if "enemy" in current_room:
-                            print("\nYou hit the " + current_room["enemy"]["name"] + "!")
-                            current_room["enemy"]["hitpoints"] -= player_status["attack"]
-                            print("It is now at " + str(current_room["enemy"]["hitpoints"]) + " health.")
-                            if current_room["enemy"]["hitpoints"] <= 0:
-                                player_status["coins"] += current_room["enemy"]["coins"]
-                                del current_room["enemy"]
-                                print("Enemy defeated! You now have " + str(player_status["coins"]) + " gold!")
-                    elif item["name"] == "water pitchers":
-                        find_tool_in_pack("water pitchers")
-                        print(result["description"])
-                        game_status = "lost"
-                    elif item["name"] == "toilet seat":
-                        find_tool_in_pack("toilet seat")
-                        print(result["description"])
-                        player_status["items"].remove(result)
-                        level1["rooms"]["bathroom"]["objects"].update({{"name": "treasure chest", "description": "You open up the chest and find a ton of gold. You find a button inside the chest as well."}})
-                    elif item["name"] == "treasure chest":
-                        find_tool_in_pack("treasure chest")
-                        print(result["description"])
-                        player_status["items"].append({"button": {"name": "button"}})
-                        player_status["coins"] += 1000000000000
-                    elif item["name"] == "button":
-                        game_status = "won"
-                    elif item["name"] == "potato":
-                        find_tool_in_pack("potato")
-                        print(result["description"])
-                        player_status["items"].remove(result)
-                    elif item["name"] == "ice enchantment":
-                        find_tool_in_pack("ice enchantment")
-                        player_status["attack"] += result["damage"]
-                        player_status["items"].remove(result)
-                        print("Your forks glow momentarily. They seem sharper, longer, and tougher.")
-                    elif item["name"] == "sandstone sharpening":
-                        find_tool_in_pack("sandstone sharpening")
-                        player_status["attack"] += result["damage"]
-                        player_status["items"].remove(result)
-                        print("Your forks glow momentarily. They seem sharper, longer, and tougher.")
-                    elif item["name"] == "draconic bestowment":
-                        find_tool_in_pack("draconic bestowment")
-                        player_status["attack"] += result["damage"]
-                        player_status["items"].remove(result)
-                        print("Your forks glow momentarily. They seem sharper, longer, and tougher.")
-                    elif item["name"] == "spearmint":
-                        find_tool_in_pack("spearmint")
-                        player_status["attack"] += result["damage"]
-                        player_status["items"].remove(result)
-                        print("Your forks glow momentarily. They seem sharper, longer, and tougher.")
-                    elif item["name"] == "health potion":
-                        print("You can't use this, you have to drink it!")
-                    else:
-                        print("Umm I can't use that yet. go bug Mark to fix the game")
+            if item["name"] == "knife":
+                find_tool_in_pack("knife")
+                print(result["description"])
+                game_status = "lost"
+            elif item["name"] == "magic portal":
+                find_tool_in_pack("magic portal")
+                current_room = level1["rooms"]["never never land"]
+                print(result["description"])
+            elif item["name"] == "microwaved game console":
+                find_tool_in_pack("microwaved game console")
+                print(result["description"])
+                game_status = "lost"
+            elif item["name"] == "chicken":
+                find_tool_in_pack("chicken")
+                print(result["description"])
+                game_status = "lost"
+            elif item["name"] == "couch":
+                find_tool_in_pack("couch")
+                if player_status["old"] == True:
+                    print("You are no longer internally an old geezer!")
                 else:
-                    print("You can't pick that up silly!")
+                    print(result["description"])
+            elif item["name"] == "mud":
+                find_tool_in_pack("mud")
+                print(result["description"])
+                if "enemy" in current_room:
+                    if "Muddy Shoe" == current_room["enemy"]["name"]:
+                        print("The Muddy Shoe laughs at your patehtic attempt to use its natural element.")
+                    else:
+                        current_room["enemy"]["muddy_turns"] = 2
+                        print("The " + current_room["enemy"]["name"] + " is now covered in mud! Quick, make your escape!")
+            elif item["name"] == "nothing":
+                find_tool_in_pack("nothing")
+                print(result["description"])
+            elif item["name"] == "plates":
+                find_tool_in_pack("plates")
+                print(result["description"])
+            elif item["name"] == "forks":
+                find_tool_in_pack("forks")
+                print(result["description"])
+                if "enemy" in current_room:
+                    print("\nYou hit the " + current_room["enemy"]["name"] + "!")
+                    current_room["enemy"]["hitpoints"] -= player_status["attack"]
+                    print("It is now at " + str(current_room["enemy"]["hitpoints"]) + " health.")
+                    if current_room["enemy"]["hitpoints"] <= 0:
+                        player_status["coins"] += current_room["enemy"]["coins"]
+                        del current_room["enemy"]
+                        print("Enemy defeated! You now have " + str(player_status["coins"]) + " gold!")
+            elif item["name"] == "water pitchers":
+                find_tool_in_pack("water pitchers")
+                print(result["description"])
+                game_status = "lost"
+            elif item["name"] == "toilet seat":
+                find_tool_in_pack("toilet seat")
+                print(result["description"])
+                player_status["items"].remove(result)
+                level1["rooms"]["bathroom"]["objects"].update({{"name": "treasure chest", "description": "You open up the chest and find a ton of gold. You find a button inside the chest as well."}})
+            elif item["name"] == "treasure chest":
+                find_tool_in_pack("treasure chest")
+                print(result["description"])
+                player_status["items"].append({"button": {"name": "button"}})
+                player_status["coins"] += 1000000000000
+            elif item["name"] == "button":
+                game_status = "won"
+            elif item["name"] == "potato":
+                find_tool_in_pack("potato")
+                print(result["description"])
+                player_status["items"].remove(result)
+            elif item["name"] == "ice enchantment":
+                find_tool_in_pack("ice enchantment")
+                player_status["attack"] += result["damage"]
+                player_status["items"].remove(result)
+                print("Your forks glow momentarily. They seem sharper, longer, and tougher.")
+            elif item["name"] == "sandstone sharpening":
+                find_tool_in_pack("sandstone sharpening")
+                player_status["attack"] += result["damage"]
+                player_status["items"].remove(result)
+                print("Your forks glow momentarily. They seem sharper, longer, and tougher.")
+            elif item["name"] == "draconic bestowment":
+                find_tool_in_pack("draconic bestowment")
+                player_status["attack"] += result["damage"]
+                player_status["items"].remove(result)
+                print("Your forks glow momentarily. They seem sharper, longer, and tougher.")
+            elif item["name"] == "spearmint":
+                find_tool_in_pack("spearmint")
+                player_status["attack"] += result["damage"]
+                player_status["items"].remove(result)
+                print("Your forks glow momentarily. They seem sharper, longer, and tougher.")
+            elif item["name"] == "health potion":
+                print("You can't use this, you have to drink it!")
             else:
-                print("That's not a number you numberskull!")
-    else:
-        print("We did not recognize your command. Please try again.")
+                print("Umm I can't use that yet. go bug Mark to fix the game")
 
 def enemy_attacks():
     global game_status
@@ -256,7 +242,7 @@ def drink():
         if "healing" in i:
             drinkables.append(i)
 
-    item = pick_item(get_input, drinkables, "You can't drink that, silly!")
+    item = pick_item(drinkables, "You can't drink that, silly!")
     if item:
         player_status["health"] += item["healing"]
         print("You are at " + str(player_status["health"]) + " health")
@@ -315,32 +301,24 @@ def shop(get_input):
 
     print("Hello and welcome to the shop! Here you may buy exquisitely non exquisite enchantments given as they all do the same thing. Except slightly different.\n")
     print("Here are the items:")
-    picked_item = pick_item(get_input, shop_items, "You can't buy that silly!")
+    picked_item = pick_item(shop_items, "You can't buy that silly!")
     if picked_item:
         buy(picked_item["cost"], picked_item)
 
-
-def pick_item_for_drinking(get_input, items):
+def pick_item(items, failure_message):
     for i, it in enumerate(items):
-        print(str(i + 1) + ") ", it["name"], "-", it["use_desc"])
-    choice = get_input()
-
-    if choice.isdigit():
-        choice_num = int(choice)
-        if choice_num <= len(items):
-            item = items[choice_num - 1]
-            return item
-
-def pick_item(get_input, items, failure_message):
-    for i, it in enumerate(items):
-        if it["type"] == "weapon":
-            item_definition(i, it, "raises damage by")
+        if "type" in it:
+            if it["type"] == "weapon":
+                item_definition(i, it, "raises damage by")
+            elif it["type"] == "potion":
+                item_definition(i, it, "raises health by")
         else:
-            item_definition(i, it, "raises health by")
+            print(str(i + 1) + ") ", it["name"], "-", it["use_desc"])
     choice = get_input()
 
     if choice.isdigit():
         choice_num = int(choice)
+        global result
         if choice_num <= len(items):
             return items[choice_num - 1]
         else:
